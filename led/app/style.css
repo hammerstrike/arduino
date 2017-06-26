@@ -38,8 +38,9 @@ html,body{
     margin: 18px 100px;
     display: block;
 }
-
-.start,
+.on,
+.off,
+.blink,
 .stop{
     width: 96%;
     margin-top: 15px;

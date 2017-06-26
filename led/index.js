@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var io = require('socket.io')(app.listen(3000));
 var five = require('johnny-five');
+var board = new five.Board();
 
 //Setting the path to static assets
 app.use(express.static(__dirname + '/app'));
@@ -11,62 +12,34 @@ app.get('/', function (res) {
     res.sendFile('/index.html')
 });
 
-var board = new five.Board({
-    repl: false
-});
-
 board.on('ready', function () {
-    var speed, commands, motors;
-    motors = {
-        a: new five.Motor({
-		  pins: {
-		    pwm: 3,
-		    dir: 12,
-		    cdir: 10
-		  }
-		}),
-        b:new five.Motor({
-		  pins: {
-		    pwm: 11,
-		    dir: 13,
-		    cdir: 5
-		  }
-		})
-    };
+	
+    var led;
+    led = new five.Led(13);
+    this.repl.inject({
+		led : led
+	});
 
-    commands = null;
-    speed = 255;
-
+	console.log('LED is ready');
+	
     io.on('connection', function (socket) {
+		console.log('Connection is ready');
+		
+        socket.on('on', function () {
+            led.on();
+        });
+
+        socket.on('off', function () {
+            led.off();
+        });
         socket.on('stop', function () {
-            motors.a.stop();
-            motors.b.stop();
+            led.stop();
         });
 
-        socket.on('start', function () {
-            speed = 150;
-            motors.a.fwd(speed);
-            motors.b.fwd(speed);
+        socket.on('blink', function () {
+            led.blink(500);
         });
 
-        socket.on('reverse', function () {
-            speed = 120;
-            motors.a.rev(speed);
-            motors.b.rev(speed);
-        });
-
-        socket.on('left', function () {
-            var aSpeed = 220;
-            var bSpeed = 50;
-            motors.a.fwd(aSpeed);
-            motors.b.rev(bSpeed);
-        });
-
-        socket.on('right', function () {
-            var aSpeed = 50;
-            var bSpeed = 220;
-            motors.a.rev(aSpeed);
-            motors.b.fwd(bSpeed);
-        });
+        
     });
 });

@@ -4,14 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "hammerStrike",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.13.3",
-    "johnny-five": "^0.8.86",
+    "express": "^4.15.3",
+    "johnny-five": "^0.11.1",
     "serialport": "^4.0.7",
-    "socket.io": "^1.3.6"
+    "socket.io": "^2.0.3"
   }
 }

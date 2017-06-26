@@ -1,30 +1,20 @@
 var socket = io();
 
-function moveForward(){
-    socket.emit('start');
+function on(){
+    socket.emit('on');
 }
-function turnRight(){
-    socket.emit('right');
+function off(){
+    socket.emit('off');
 }
-function turnLeft(){
-    socket.emit('left');
+function blink(){
+    socket.emit('blink');
 }
-function moveReverse(){
-    socket.emit('reverse');
-}
-
 function stop(){
-
     socket.emit('stop');
 }
 
-socket.on('speed',function (data) {
-  $('.speed span').html(data);
-})
 
-
-document.getElementById('forward').onclick = moveForward;
-document.getElementById('right').onclick = turnRight;
-document.getElementById('left').onclick = turnLeft;
-document.getElementById('reverse').onclick = moveReverse;
+document.getElementById('on').onclick = on;
+document.getElementById('off').onclick = off;
+document.getElementById('blink').onclick = blink;
 document.getElementById('stop').onclick = stop;
